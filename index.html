@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>For Shivangi</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&display=swap" rel="stylesheet">
+
+<style>
+* { box-sizing: border-box; }
+
+html, body {
+  margin: 0;
+  height: 100%;
+  background: radial-gradient(circle at top, #2b0f3f, #12001e);
+}
+
+body {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-family: 'Dancing Script', cursive;
+  color: #f2d9ff;
+}
+
+/* Layout */
+.wrapper {
+  display: flex;
+  gap: 60px;
+  max-width: 900px;
+  width: 100%;
+  padding: 30px;
+}
+
+@media (max-width: 768px) {
+  .wrapper { flex-direction: column; }
+}
+
+.left, .right {
+  flex: 1;
+  text-align: center;
+}
+
+/* Text */
+.left h1 {
+  font-size: 28px;
+  color: #e9c6ff;
+}
+
+.left p {
+  font-size: 16px;
+  color: #caa6e6;
+}
+
+/* Postbox */
+.postbox {
+  width: 180px;
+  height: 130px;
+  margin: 35px auto;
+  background: linear-gradient(#7b2cbf, #3c096c);
+  border-radius: 14px;
+  cursor: pointer;
+  box-shadow: 0 20px 40px rgba(160, 90, 255, 0.5);
+}
+
+/* Surprise text */
+.surprise-text {
+  display: none;
+  font-size: 22px;
+  color: #ddb7ff;
+  margin-bottom: 20px;
+  animation: fadeIn 2s ease forwards;
+}
+
+/* Envelope */
+.envelope {
+  position: relative;
+  width: 260px;
+  height: 170px;
+  margin: auto;
+  cursor: pointer;
+  display: none;
+  animation: fadeIn 2s ease forwards;
+}
+
+.env-body {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(#5a189a, #240046);
+  border-radius: 14px;
+}
+
+.env-flap {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(#7b2cbf, #3c096c);
+  clip-path: polygon(0 0, 100% 0, 50% 55%);
+  transform-origin: top;
+  transition: transform 2.5s ease;
+}
+
+.envelope.open .env-flap {
+  transform: rotateX(180deg);
+}
+
+/* Hearts */
+.heart-container {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 10px;
+  height: 10px;
+  pointer-events: none;
+}
+
+.flying-heart {
+  position: absolute;
+  animation: fly 3.5s ease-out forwards;
+}
+
+@keyframes fly {
+  from {
+    transform: translate(0,0) scale(0.4);
+    opacity: 1;
+  }
+  to {
+    transform: translate(var(--x), var(--y)) scale(1.6);
+    opacity: 0;
+  }
+}
+
+/* FINAL LETTER */
+.letter-overlay {
+  position: fixed;
+  inset: 0;
+  background: radial-gradient(circle, #1a0026, #090011);
+  display: none;
+  justify-content: center;
+  align-items: center;
+  z-index: 999;
+}
+
+.letter-card {
+  width: min(92vw, 540px);
+  height: min(92vh, 380px);
+  background:
+    radial-gradient(circle at 20% 20%, #ff7bbf 3px, transparent 4px),
+    radial-gradient(circle at 70% 30%, #ff9ad5 4px, transparent 5px),
+    radial-gradient(circle at 40% 70%, #ffb3df 5px, transparent 6px),
+    linear-gradient(#ffd6e8, #ffb6d3);
+  background-size: 60px 60px;
+  border-radius: 26px;
+  box-shadow: 0 40px 80px rgba(255, 120, 190, 0.6);
+  animation: letterIn 3s ease forwards, glow 6s ease-in-out infinite;
+  position: relative;
+}
+
+/* Glow breathing */
+@keyframes glow {
+  0%,100% { box-shadow: 0 40px 80px rgba(255,120,190,0.6); }
+  50% { box-shadow: 0 40px 100px rgba(255,160,210,0.9); }
+}
+
+@keyframes letterIn {
+  from { transform: scale(0.9); opacity: 0; }
+  to { transform: scale(1); opacity: 1; }
+}
+
+/* Decorative hearts */
+.decor-hearts::before {
+  content: "❤️ 💕 💖 💗 💓 💞 💝 ❤️ 💕";
+  position: absolute;
+  inset: 25px;
+  font-size: 24px;
+  opacity: 0.35;
+}
+
+/* Letter text */
+.letter-text {
+  position: relative;
+  z-index: 2;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.title {
+  font-size: 68px;
+  color: #b0005c;
+}
+
+.subtitle {
+  font-size: 40px;
+  color: #d4006a;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+</style>
+</head>
+
+<body>
+
+<div class="wrapper" id="mainContent">
+
+  <div class="left">
+    <h1>Shivangi, there's something for you in the post box</h1>
+    <p>Click to open the post box</p>
+
+    <div class="postbox" onclick="showEnvelope()">📮</div>
+  </div>
+
+  <div class="right">
+    <div class="surprise-text" id="surpriseText">
+      Oh! What's that? An envelope?<br>
+      Let's open it!!<br>
+      No wonder who sent it.
+    </div>
+
+    <div class="envelope" id="envelope" onclick="openEnvelope()">
+      <div class="env-body"></div>
+      <div class="env-flap"></div>
+      <div class="heart-container" id="envHearts"></div>
+    </div>
+  </div>
+
+</div>
+
+<div class="letter-overlay" id="letterOverlay">
+  <div class="letter-card">
+    <div class="decor-hearts"></div>
+    <div class="letter-text">
+      <div class="title">Proposal</div>
+      <div class="subtitle">to Shivangi</div>
+    </div>
+  </div>
+</div>
+
+<script>
+function showEnvelope() {
+  document.getElementById('surpriseText').style.display = 'block';
+  document.getElementById('envelope').style.display = 'block';
+}
+
+function openEnvelope() {
+  const env = document.getElementById('envelope');
+  env.classList.add('open');
+  spawnHearts();
+
+  setTimeout(() => {
+    document.getElementById('mainContent').style.display = 'none';
+    document.getElementById('letterOverlay').style.display = 'flex';
+  }, 3800);
+}
+
+function spawnHearts() {
+  const container = document.getElementById('envHearts');
+  container.innerHTML = "";
+
+  for (let i = 0; i < 28; i++) {
+    setTimeout(() => {
+      const heart = document.createElement('div');
+      heart.className = 'flying-heart';
+      heart.textContent = Math.random() > 0.5 ? '💜' : '💖';
+
+      heart.style.setProperty('--x', (Math.random() - 0.5) * 480 + 'px');
+      heart.style.setProperty('--y', (Math.random() - 0.5) * 380 + 'px');
+      heart.style.fontSize = (Math.random() * 28 + 18) + 'px';
+
+      container.appendChild(heart);
+      setTimeout(() => heart.remove(), 3500);
+    }, i * 140);
+  }
+}
+</script>
+
+</body>
+</html>
